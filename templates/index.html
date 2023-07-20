@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CPT Code Lookup</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+   $(document).ready(function() {
+     $("form").on("submit", function(e) {
+       e.preventDefault();
+       $.ajax({
+         type: "POST",
+         url: "/",
+         data: $(this).serialize(),
+         success: function(response) {
+           $("#cpt_code").text(response.cpt_code);
+         },
+       });
+     });
+   });
+</script>
+</head>
+<body>
+<div class="container">
+<h1>CPT Code Lookup</h1>
+<form>
+<div class="form-group">
+<label for="description">Enter procedure description:</label>
+<textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+</div>
+<button type="submit" class="btn btn-primary">Submit</button>
+</form>
+<br>
+<h3>CPT Code:</h3>
+<p id="cpt_code"></p>
+</div>
+</body>
+</html>
