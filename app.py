@@ -26,11 +26,11 @@ def chatgpt_request(prompt):
 def index():
    if request.method == "POST":
        description = request.form.get("description")
-       prompt = f"List the CPT codes for the following medical procedure: {description}"
+       prompt = f"List 3 CPT codes for the following medical procedure: {description}"
        response_text = chatgpt_request(prompt)
        cpt_codes = response_text.strip().split(',')
        cpt_code = random.choice(cpt_codes)
-       return jsonify(cpt_code=cpt_code)
+       return jsonify(cpt_code0=cpt_codes[0],cpt_code1=cpt_codes[1], cpt_code2=cpt_codes[2])
 
    return render_template("index.html")
 

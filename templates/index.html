@@ -1,6 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<style>
+  table {
+    font-family: arial, sans-serif;
+    color: white;
+    border-collapse: collapse;
+    width: 100%;
+    background-color: rgb(113, 109, 144);
+  }
+    
+  td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+    
+  tr:nth-child(even) {
+    background-color: #ad91a6;
+  }
+</style>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CPT Code Lookup</title>
@@ -18,26 +37,36 @@
          url: "/",
          data: $(this).serialize(),
          success: function(response) {
-           $("#cpt_code").text(response.cpt_code);
+          $("#cpt_code").html("<tr>\
+                    <th>CPT Code</th>\
+                    </tr>\
+                    <tr>\
+										<td>"+response.cpt_code0+"</td>\
+										</tr>\
+                    <tr>\
+										<td>"+response.cpt_code1+"</td>\
+										</tr>\
+                    <tr>\
+										<td>"+response.cpt_code2+"</td>\
+                    </tr>");
          },
        });
      });
    });
 </script>
 </head>
-<body>
+<body style="background-color:rgb(102, 51, 153);">
 <div class="container">
-<h1>CPT Code Lookup</h1>
+<h1 style="color: white">CPT Code Lookup</h1>
 <form>
 <div class="form-group">
-<label for="description">Enter procedure description:</label>
+<label for="description" style="color: white">Enter procedure description:</label>
 <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
 </div>
 <button type="submit" class="btn btn-primary">Submit</button>
 </form>
 <br>
-<h3>CPT Code:</h3>
-<p id="cpt_code"></p>
+<table id="cpt_code"></table>
 </div>
 </body>
 </html>
