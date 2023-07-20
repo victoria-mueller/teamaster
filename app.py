@@ -26,11 +26,27 @@ def chatgpt_request(prompt):
 def index():
    if request.method == "POST":
        description = request.form.get("description")
-       prompt = f"List the CPT codes for the following medical procedure: {description}"
-       response_text = chatgpt_request(prompt)
-       cpt_codes = response_text.strip().split(',')
-       cpt_code = random.choice(cpt_codes)
-       return jsonify(cpt_code=cpt_code)
+       find_cpt_prompt = f"List top 3 CPT codes for the following medical procedure: {description}"
+       find_cpt_response = chatgpt_request(find_cpt_prompt)
+       cpt_codes = find_cpt_response.strip().split(',')
+       keys = range(len(cpt_codes))
+       cpt_description = {}
+       cpt_limitation = {}
+       for i in keys:
+           print(cpt_codes[i])
+           cpt_desc_prompt = f"give me a description for this cpt code: {cpt_codes[i]}"
+           cpt_desc_response = chatgpt_request(cpt_desc_prompt)
+           cpt_description [i] = cpt_desc_response.strip()
+
+           cpt_desc_prompt = f"what is claim submission limitation for cpt code: {cpt_codes[i]}"
+           cpt_limitation_response= chatgpt_request(cpt_desc_prompt)
+           cpt_limitation [i] = cpt_limitation_response.strip()
+       print(cpt_description)
+       print(cpt_limitation)
+       # test_promt = f"what is frequency limitation for cpt code: 0488T"
+       # print(chatgpt_request(test_promt).strip())
+
+       return jsonify(cpt_code=cpt_codes)
 
    return render_template("index.html")
 
