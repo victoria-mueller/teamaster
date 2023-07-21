@@ -39,10 +39,6 @@ def index():
       cpt_desc_response = chatgpt_request(cpt_desc_prompt)
       result["description"] = cpt_desc_response.strip()
 
-      cpt_desc_prompt = f"what is claim submission limitation for cpt code: {cpt_codes[i]}"
-      cpt_limitation_response= chatgpt_request(cpt_desc_prompt)
-      result["limitation"] = cpt_limitation_response.strip()
-
       results.append(result)
 
     return jsonify(results=results)

@@ -8,7 +8,7 @@
     padding: 10px;
     color: #351F65;
   }
-  #rcorners:hover {
+  #rcorners:hover, #rcorners:focus {
     color: white;
     background-color: #351F65;
   }
@@ -32,6 +32,15 @@
   li a:hover {
     background-color: #351F65;
   }
+  .button {
+    background-color:rgb(89,130,230)
+  }
+  #sentcpt{
+    display: none
+  }
+  #findmore {
+    display: none
+  }
 </style>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -51,19 +60,26 @@
         data: $(this).serialize(),
         success: function(response) {
           $("#cpt_code").html("<h4 style=\"color: #351F65\">CPT Codes:</h4>\
-          <p id=\"rcorners\">" + response.results[0].code+" - " + response.results[0].description + "</p>\
-          <p id=\"rcorners\">" + response.results[1].code+" - " + response.results[1].description + "</p>\
-          <p id=\"rcorners\">" + response.results[2].code+" - " + response.results[2].description + "</p>");
+          <p id=\"rcorners\" tabindex=\"0\">" + response.results[0].code+" - " + response.results[0].description + "</p>\
+          <p id=\"rcorners\" tabindex=\"0\">" + response.results[1].code+" - " + response.results[1].description + "</p>\
+          <p id=\"rcorners\" tabindex=\"0\">" + response.results[2].code+" - " + response.results[2].description + "</p>\
+          <button class=\"btn btn-primary\" onClick=\"displaySentCpt()\">Select CPT Code</button");
         },
       });
     });
   });
+  function displaySentCpt() {
+    var p = document.getElementById("sentcpt");
+    p.style.display = "block";
+    var p1 = document.getElementById("findmore");
+    p1.style.display = "block";
+  }
 </script>
 </head>
 <body>
   <ul>
     <li><img src="../static/TDOC_nav.png" style="width:96px;height:32px;margin: 10px"></img></li>
-    <li><a class="active" href="#home">Home</a></li>
+    <li><a class="active" href="/">Home</a></li>
     <li><a href="#contact">Contact</a></li>
     <li><a href="#about">About</a></li>
   </ul>
@@ -74,10 +90,12 @@
 <label for="description" style="color: rgb(156, 156, 156)">Enter procedure description:</label>
 <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
 </div>
-<button type="submit" class="btn btn-primary" style="background-color:rgb(89,130,230)">Submit</button>
+<button type="submit" class="btn btn-primary">Lookup CPT Codes</button>
 </form>
 <br>
 <p id="cpt_code"></p>
+<p id="sentcpt">CPT Code selected. Your input will be used as feedback to further train our model!</p>
+<p id="findmore"><a href="/">Find more CPT codes.</a></p>
 </div>
 </body>
 </html>
