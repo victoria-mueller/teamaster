@@ -2,22 +2,44 @@
 <html lang="en">
 <head>
 <style>
-  table {
-    font-family: arial, sans-serif;
+  #rcorners {
+    border-radius: 15px;
+    border: 2px solid #351F65;
+    padding: 10px;
+    color: #351F65;
+  }
+  #rcorners:hover, #rcorners:focus {
     color: white;
-    border-collapse: collapse;
-    width: 100%;
-    background-color: rgb(155,95,208);
+    background-color: #351F65;
   }
-    
-  td, th {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #351F65;
   }
-    
-  tr:nth-child(even) {
-    background-color: rgb(211, 211, 211);
+  li {
+    float: left;
+  }
+  li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+  }
+  li a:hover {
+    background-color: #351F65;
+  }
+  .button {
+    background-color:rgb(89,130,230)
+  }
+  #sentcpt{
+    display: none
+  }
+  #findmore {
+    display: none
   }
 </style>
 <meta charset="UTF-8">
@@ -37,40 +59,43 @@
         url: "/",
         data: $(this).serialize(),
         success: function(response) {
-          $("#cpt_code").html("<tr>\
-            <th>CPT Code</th>\
-            <th>Description</th>\
-            </tr>\
-            <tr>\
-            <td>"+response.results[0].code+"</td>\
-            <td>"+response.results[0].description+"</td>\
-            </tr>\
-            <tr>\
-            <td>"+response.results[1].code+"</td>\
-            <td>"+response.results[1].description+"</td>\
-            </tr>\
-            <tr>\
-            <td>"+response.results[2].code+"</td>\
-            <td>"+response.results[2].description+"</td>\
-            </tr>");
+          $("#cpt_code").html("<h4 style=\"color: #351F65\">CPT Codes:</h4>\
+          <p id=\"rcorners\" tabindex=\"0\">" + response.results[0].code+" - " + response.results[0].description + "</p>\
+          <p id=\"rcorners\" tabindex=\"0\">" + response.results[1].code+" - " + response.results[1].description + "</p>\
+          <p id=\"rcorners\" tabindex=\"0\">" + response.results[2].code+" - " + response.results[2].description + "</p>\
+          <button class=\"btn btn-primary\" onClick=\"displaySentCpt()\">Select CPT Code</button");
         },
       });
     });
   });
+  function displaySentCpt() {
+    var p = document.getElementById("sentcpt");
+    p.style.display = "block";
+    var p1 = document.getElementById("findmore");
+    p1.style.display = "block";
+  }
 </script>
 </head>
-<body style="background-color:white;">
+<body>
+  <ul>
+    <li><img src="../static/TDOC_nav.png" style="width:96px;height:32px;margin: 10px"></img></li>
+    <li><a class="active" href="/">Home</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#about">About</a></li>
+  </ul>
 <div class="container">
-<h1 style="color: rgb(155,95,208)">CPT Code Lookup</h1>
+<h1 style="color: #351F65">CPT Code Lookup</h1>
 <form>
 <div class="form-group">
 <label for="description" style="color: rgb(156, 156, 156)">Enter procedure description:</label>
 <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
 </div>
-<button type="submit" class="btn btn-primary" style="background-color:rgb(89,130,230)">Submit</button>
+<button type="submit" class="btn btn-primary">Lookup CPT Codes</button>
 </form>
 <br>
-<table id="cpt_code"></table>
+<p id="cpt_code"></p>
+<p id="sentcpt">CPT Code selected. Your input will be used as feedback to further train our model!</p>
+<p id="findmore"><a href="/">Find more CPT codes.</a></p>
 </div>
 </body>
 </html>
