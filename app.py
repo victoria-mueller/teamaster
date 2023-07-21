@@ -24,31 +24,30 @@ def chatgpt_request(prompt):
 
 @app.route("/", methods=["GET", "POST"])
 def index():
-   if request.method == "POST":
-       description = request.form.get("description")
-       find_cpt_prompt = f"List top 3 CPT codes for the following medical procedure: {description}"
-       find_cpt_response = chatgpt_request(find_cpt_prompt)
-       cpt_codes = find_cpt_response.strip().split(',')
-       keys = range(len(cpt_codes))
-       cpt_description = {}
-       cpt_limitation = {}
-       for i in keys:
-           print(cpt_codes[i])
-           cpt_desc_prompt = f"give me a description for this cpt code: {cpt_codes[i]}"
-           cpt_desc_response = chatgpt_request(cpt_desc_prompt)
-           cpt_description [i] = cpt_desc_response.strip()
+  if request.method == "POST":
+    description = request.form.get("description")
+    find_cpt_prompt = f"List 3 CPT codes for the following medical procedure: {description}"
+    find_cpt_response = chatgpt_request(find_cpt_prompt)
+    cpt_codes = find_cpt_response.strip().split(',')
+    keys = range(len(cpt_codes))
+    results = []
+    for i in keys:
+      print(cpt_codes[i])
+      result = {}
+      result["code"] = cpt_codes[i]
+      cpt_desc_prompt = f"give me a description for this cpt code: {cpt_codes[i]}"
+      cpt_desc_response = chatgpt_request(cpt_desc_prompt)
+      result["description"] = cpt_desc_response.strip()
 
-           cpt_desc_prompt = f"what is claim submission limitation for cpt code: {cpt_codes[i]}"
-           cpt_limitation_response= chatgpt_request(cpt_desc_prompt)
-           cpt_limitation [i] = cpt_limitation_response.strip()
-       print(cpt_description)
-       print(cpt_limitation)
-       # test_promt = f"what is frequency limitation for cpt code: 0488T"
-       # print(chatgpt_request(test_promt).strip())
+      cpt_desc_prompt = f"what is claim submission limitation for cpt code: {cpt_codes[i]}"
+      cpt_limitation_response= chatgpt_request(cpt_desc_prompt)
+      result["limitation"] = cpt_limitation_response.strip()
 
-       return jsonify(cpt_code=cpt_codes)
+      results.append(result)
 
-   return render_template("index.html")
+    return jsonify(results=results)
+
+  return render_template("index.html")
 
 if __name__ == "__main__":
    app.run(debug=True)

@@ -1,6 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<style>
+  table {
+    font-family: arial, sans-serif;
+    color: white;
+    border-collapse: collapse;
+    width: 100%;
+    background-color: rgb(155,95,208);
+  }
+    
+  td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+    
+  tr:nth-child(even) {
+    background-color: rgb(211, 211, 211);
+  }
+</style>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CPT Code Lookup</title>
@@ -10,34 +29,48 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-   $(document).ready(function() {
-     $("form").on("submit", function(e) {
-       e.preventDefault();
-       $.ajax({
-         type: "POST",
-         url: "/",
-         data: $(this).serialize(),
-         success: function(response) {
-           $("#cpt_code").text(response.cpt_code);
-         },
-       });
-     });
-   });
+  $(document).ready(function() {
+    $("form").on("submit", function(e) {
+      e.preventDefault();
+      $.ajax({
+        type: "POST",
+        url: "/",
+        data: $(this).serialize(),
+        success: function(response) {
+          $("#cpt_code").html("<tr>\
+            <th>CPT Code</th>\
+            <th>Description</th>\
+            </tr>\
+            <tr>\
+            <td>"+response.results[0].code+"</td>\
+            <td>"+response.results[0].description+"</td>\
+            </tr>\
+            <tr>\
+            <td>"+response.results[1].code+"</td>\
+            <td>"+response.results[1].description+"</td>\
+            </tr>\
+            <tr>\
+            <td>"+response.results[2].code+"</td>\
+            <td>"+response.results[2].description+"</td>\
+            </tr>");
+        },
+      });
+    });
+  });
 </script>
 </head>
-<body>
+<body style="background-color:white;">
 <div class="container">
-<h1>CPT Code Lookup</h1>
+<h1 style="color: rgb(155,95,208)">CPT Code Lookup</h1>
 <form>
 <div class="form-group">
-<label for="description">Enter procedure description:</label>
+<label for="description" style="color: rgb(156, 156, 156)">Enter procedure description:</label>
 <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
 </div>
-<button type="submit" class="btn btn-primary">Submit</button>
+<button type="submit" class="btn btn-primary" style="background-color:rgb(89,130,230)">Submit</button>
 </form>
 <br>
-<h3>CPT Code:</h3>
-<p id="cpt_code"></p>
+<table id="cpt_code"></table>
 </div>
 </body>
 </html>
