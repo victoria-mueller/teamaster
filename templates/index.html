@@ -53,8 +53,7 @@
 <script>
   $(document).ready(function() {
     $("form").on("submit", function(e) {
-      var p = document.getElementById("cpt_code");
-      p.style.display = 'none';
+      $('#cpt_code').html('<img src="../static/loading.gif" style="width:48px;height:48px;" />').load("index.html #cpt_code");
       e.preventDefault();
       $.ajax({
         type: "POST",
@@ -66,9 +65,10 @@
           <p id=\"rcorners\" tabindex=\"0\">" + response.results[1].code+" - " + response.results[1].description + "</p>\
           <p id=\"rcorners\" tabindex=\"0\">" + response.results[2].code+" - " + response.results[2].description + "</p>\
           <button class=\"btn btn-primary\" onClick=\"displaySentCpt()\">Select CPT Code</button");
-          var p = document.getElementById("cpt_code")
-          p.style.display = 'block';
         },
+        error: function() {
+          $("#cpt_code").html("<h4 style=\"color: #351F65\">Could not find applicable CPT codes.</h4>");
+        }
       });
     });
   });
