@@ -53,6 +53,8 @@
 <script>
   $(document).ready(function() {
     $("form").on("submit", function(e) {
+      var p = document.getElementById("cpt_code");
+      p.style.display = 'none';
       e.preventDefault();
       $.ajax({
         type: "POST",
@@ -64,6 +66,8 @@
           <p id=\"rcorners\" tabindex=\"0\">" + response.results[1].code+" - " + response.results[1].description + "</p>\
           <p id=\"rcorners\" tabindex=\"0\">" + response.results[2].code+" - " + response.results[2].description + "</p>\
           <button class=\"btn btn-primary\" onClick=\"displaySentCpt()\">Select CPT Code</button");
+          var p = document.getElementById("cpt_code")
+          p.style.display = 'block';
         },
       });
     });
@@ -93,7 +97,7 @@
 <button type="submit" class="btn btn-primary">Lookup CPT Codes</button>
 </form>
 <br>
-<p id="cpt_code"></p>
+<div id="cpt_code"></div>
 <p id="sentcpt">CPT Code selected. Your input will be used as feedback to further train our model!</p>
 <p id="findmore"><a href="/">Find more CPT codes.</a></p>
 </div>
